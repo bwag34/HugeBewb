@@ -52,6 +52,8 @@ public class MainActivity extends Activity {
             navigateToLogin();
         } else {
             // show the signup or login screen
+            Intent intent = new Intent(MainActivity.this, MainTabbedActivity.class);
+            startActivity(intent);
             Log.i(TAG, currentUser.getUsername());
         }
 
