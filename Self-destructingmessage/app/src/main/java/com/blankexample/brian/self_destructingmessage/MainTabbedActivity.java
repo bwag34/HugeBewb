@@ -16,6 +16,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.parse.GetCallback;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 import java.util.Locale;
@@ -35,6 +39,8 @@ public class MainTabbedActivity extends Activity implements ActionBar.TabListene
      */
     SectionsPagerAdapter mSectionsPagerAdapter;
 
+    String remoteEventName;
+
     /**
      * The {@link ViewPager} that will host the section contents.
      */
@@ -52,6 +58,19 @@ public class MainTabbedActivity extends Activity implements ActionBar.TabListene
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
         mSectionsPagerAdapter = new SectionsPagerAdapter(getFragmentManager());
+
+
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("events");
+        query.getInBackground("97N5zHEtbm", new GetCallback<ParseObject>() {
+            public void done(ParseObject event, ParseException e) {
+                if (e == null) {
+                    remoteEventName = event.getString("name");
+                    Log.d("score", "Retrieved " + remoteEventName);
+                } else {
+                    Log.d("score", "Error: " + e.getMessage());
+                }
+            }
+        });
 
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.pager);
